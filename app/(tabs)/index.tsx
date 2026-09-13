@@ -1,16 +1,26 @@
-import { StyleSheet,View,StatusBar,TouchableOpacity,} from 'react-native';
+import { StyleSheet,View,StatusBar,} from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Index() {
-  const [corVermelhaVert, setCorVermelhaVert] = useState('black');
-  const [corAmarelaVert, setCorAmarelaVert] = useState('black');
-  const [corVerdeVert, setCorVerdeVert] = useState('black');
+    const [luzAtivaVert, setLuzAtivaVert] = useState(0);
+    const [luzAtivaHorz, setLuzAtivaHorz] = useState(0);
 
-  const [corVermelhaHorz, setCorVermelhaHorz] = useState('black');
-  const [corAmarelaHorz, setCorAmarelaHorz] = useState('black');
-  const [corVerdeHorz, setCorVerdeHorz] = useState('black');
+    useEffect(() => {
+    const intervaloVert = setInterval(() => {
+      setLuzAtivaVert((prev) => (prev + 1) % 3);
+    }, 2000);
 
+    return () => clearInterval(intervaloVert);
+  }, []);
+
+  useEffect(() => {
+    const intervaloHorz = setInterval(() => {
+      setLuzAtivaHorz((prev) => (prev + 1) % 3);
+    }, 2000);
+
+    return () => clearInterval(intervaloHorz);
+  }, []);
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeArea}>
@@ -20,27 +30,19 @@ export default function Index() {
 
           <View style={styles.middleSection}>
             <View style={styles.semafarovertical}>
-              <TouchableOpacity onPress={() => setCorVermelhaVert('red')}>
-                <View style={[styles.luzvermelhavert, { backgroundColor: corVermelhaVert }]} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setCorAmarelaVert('yellow')}>
-                <View style={[styles.luzamarelavert, { backgroundColor: corAmarelaVert }]} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setCorVerdeVert('green')}>
-                <View style={[styles.luzverdevert, { backgroundColor: corVerdeVert }]} />
-              </TouchableOpacity>
+              
+              <View style={[styles.luzvermelhavert, { opacity: luzAtivaVert === 0 ? 1 : 0.1 }]} />
+              <View style={[styles.luzamarelavert, { opacity: luzAtivaVert === 1 ? 1 : 0.1 }]} />
+              <View style={[styles.luzverdevert, { opacity: luzAtivaVert === 2 ? 1 : 0.1 }]} />
+              
             </View>
 
             <View style={styles.semafarohorizontal}>
-              <TouchableOpacity onPress={() => setCorVermelhaHorz('red')}>
-                <View style={[styles.luzvermelhahori, { backgroundColor: corVermelhaHorz }]} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setCorAmarelaHorz('yellow')}>
-                <View style={[styles.luzamarelahori, { backgroundColor: corAmarelaHorz }]} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setCorVerdeHorz('green')}>
-                <View style={[styles.luzverdehori, { backgroundColor: corVerdeHorz }]} />
-              </TouchableOpacity>
+              
+              <View style={[styles.luzvermelhahori, { opacity: luzAtivaHorz === 0 ? 1 : 0.1 }]} />
+              <View style={[styles.luzamarelahori, { opacity: luzAtivaHorz === 1 ? 1 : 0.1 }]} />
+              <View style={[styles.luzverdehori, { opacity: luzAtivaHorz === 2 ? 1 : 0.1 }]} />
+              
             </View>
             
           </View>
@@ -80,28 +82,40 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'space-evenly',
     borderWidth: 2,
-    borderColor: '#4d4d4d',
+    borderColor: 'black',
   },
   luzvermelhavert: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    borderWidth: 2,
-    borderColor: '#4d4d4d',
+    borderWidth: 3,
+    borderColor: 'black',
+    opacity: 0.1,
+    backgroundColor: 'red',
+
+    
   },
   luzamarelavert: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    borderWidth: 2,
-    borderColor: '#4d4d4d',
+    borderWidth: 3,
+    borderColor: 'black',
+    opacity: 0.1,
+    backgroundColor: 'yellow',
+  
+    
   },
   luzverdevert: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    borderWidth: 2,
-    borderColor: '#4d4d4d',
+    borderWidth: 3,
+    borderColor: 'black',
+    opacity: 0.1,
+    backgroundColor: 'green',
+
+    
   },
   semafarohorizontal: {
     width: 250,
@@ -113,28 +127,38 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'space-evenly',
     borderWidth: 2,
-    borderColor: '#4d4d4d',
+    borderColor: 'black',
   },
   luzvermelhahori: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    borderWidth: 2,
-    borderColor: '#4d4d4d',
+    borderWidth: 3,
+    borderColor: 'black',
+    opacity: 0.1,
+    backgroundColor: 'red',
+
   },
   luzamarelahori: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    borderWidth: 2,
-    borderColor: '#4d4d4d',
+    borderWidth: 3,
+    borderColor: 'black',
+    opacity: 0.1,
+    backgroundColor: 'yellow',
+
+    
   },
   luzverdehori: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    borderWidth: 2,
-    borderColor: '#4d4d4d',
+    borderWidth: 3,
+    borderColor: 'black',
+    opacity: 0.1,
+    backgroundColor: 'green',
+    
   },
   bottomSection: {
     flex: 1,
